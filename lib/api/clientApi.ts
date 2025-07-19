@@ -34,37 +34,6 @@ export type UpdateUserRequest = {
 
 const API_KEY = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN as string;
 
-// const baseURL = process.env.NEXT_PUBLIC_API_URL + "/api";
-
-// const baseURL = "https://notehub-api.goit.study";
-
-// const baseURL = process.env.NEXT_PUBLIC_API_URL + "/api";
-// axios.defaults.baseURL = baseURL;
-
-// export const fetchNotes = async ({
-//   page,
-//   query,
-//   tag,
-// }: FetchNotesProps): Promise<FetchNotesResponse> => {
-//   const params = new URLSearchParams();
-
-//   params.append("page", `${page}`);
-//   params.append("perPage", "12");
-
-//   if (query) {
-//     params.append("search", query);
-//   }
-
-//   if (tag && tag !== "All") {
-//     params.append("tag", tag);
-//   }
-
-//   const res = await nextServer.get<FetchNotesResponse>(
-//     `/notes?${params.toString()}`
-//   );
-
-//   return res.data;
-// };
 export const fetchNotes = async ({
   page,
   query,
