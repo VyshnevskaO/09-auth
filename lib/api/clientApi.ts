@@ -6,6 +6,7 @@ interface FetchNotesProps {
   page: number;
   query?: string;
   tag?: string;
+  cookies?: string;
 }
 
 interface FetchNotesResponse {
@@ -14,9 +15,9 @@ interface FetchNotesResponse {
 }
 
 export interface NewNoteData {
-  title?: string;
+  title: string;
   content?: string;
-  tag?: string;
+  tag: string;
 }
 
 export interface AuthRequest {
@@ -32,14 +33,12 @@ export type UpdateUserRequest = {
   username: string;
 };
 
-const API_KEY = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN as string;
-
 export const fetchNotes = async ({
   page,
   query,
   tag,
   cookies,
-}: FetchNotesProps & { cookies?: string }): Promise<FetchNotesResponse> => {
+}: FetchNotesProps): Promise<FetchNotesResponse> => {
   const params = new URLSearchParams();
 
   params.append("page", `${page}`);
@@ -64,29 +63,17 @@ export const fetchNotes = async ({
 };
 
 export const deleteNote = async (id: string): Promise<Note> => {
-  const res = await nextServer.delete<Note>(`/notes/${id}`, {
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  });
+  const res = await nextServer.delete<Note>(`/notes/${id}`);
   return res.data;
 };
 
 export const fetchNoteById = async (id: string): Promise<Note> => {
-  const res = await nextServer.get<Note>(`/notes/${id}`, {
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  });
+  const res = await nextServer.get<Note>(`/notes/${id}`);
   return res.data;
 };
 
 export const createNewNote = async (data: NewNoteData): Promise<Note> => {
-  const res = await nextServer.post<Note>(`/notes/`, data, {
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  });
+  const res = await nextServer.post<Note>(`/notes/`, data);
   return res.data;
 };
 
