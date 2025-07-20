@@ -13,8 +13,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const idNum = parseInt(id, 10);
-  const note = await fetchNoteById(idNum);
+  const note = await fetchNoteById(id);
   return {
     title: note.title,
     description: note.content.slice(0, 30),
@@ -37,10 +36,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const NoteDetails = async ({ params }: Props) => {
   const { id } = await params;
   const queryClient = new QueryClient();
-  const idNum = parseInt(id, 10);
   await queryClient.prefetchQuery({
-    queryKey: ["note", idNum],
-    queryFn: () => fetchNoteById(idNum),
+    queryKey: ["note", id],
+    queryFn: () => fetchNoteById(id),
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

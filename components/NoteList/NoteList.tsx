@@ -13,9 +13,9 @@ interface NoteListProps {
 
 export default function NoteList({ notes }: NoteListProps) {
   const queryClient = useQueryClient();
-  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const mutation = useMutation<Note, Error, number>({
+  const mutation = useMutation<Note, Error, string>({
     mutationFn: deleteNote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notesList"] });
@@ -25,7 +25,7 @@ export default function NoteList({ notes }: NoteListProps) {
     },
   });
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     setDeletingId(id);
     mutation.mutate(id, {
       onSettled: () => {
