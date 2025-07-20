@@ -63,7 +63,7 @@ export const fetchNotes = async ({
   return res.data;
 };
 
-export const deleteNote = async (id: number): Promise<Note> => {
+export const deleteNote = async (id: string): Promise<Note> => {
   const res = await nextServer.delete<Note>(`/notes/${id}`, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
@@ -72,8 +72,8 @@ export const deleteNote = async (id: number): Promise<Note> => {
   return res.data;
 };
 
-export const fetchNoteById = async (id: number): Promise<Note> => {
-  const res = await nextServer<Note>(`/notes/${id}`, {
+export const fetchNoteById = async (id: string): Promise<Note> => {
+  const res = await nextServer.get<Note>(`/notes/${id}`, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
     },
@@ -81,7 +81,7 @@ export const fetchNoteById = async (id: number): Promise<Note> => {
   return res.data;
 };
 
-export const createNewNote = async (data: NewNoteData) => {
+export const createNewNote = async (data: NewNoteData): Promise<Note> => {
   const res = await nextServer.post<Note>(`/notes/`, data, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
@@ -91,27 +91,27 @@ export const createNewNote = async (data: NewNoteData) => {
 };
 
 export const register = async (payload: AuthRequest) => {
-  const { data } = await nextServer.post<User>("auth/register", payload);
+  const { data } = await nextServer.post<User>("/auth/register", payload);
   return data;
 };
 
 export const login = async (payload: AuthRequest) => {
-  const { data } = await nextServer.post<User>("auth/login", payload);
+  const { data } = await nextServer.post<User>("/auth/login", payload);
   return data;
 };
 
 export const checkSession = async () => {
-  const { data } = await nextServer.get<CheckSessionRequest>("auth/session");
+  const { data } = await nextServer.get<CheckSessionRequest>("/auth/session");
   return data.success;
 };
 
 export const getMe = async () => {
-  const { data } = await nextServer.get<User>("users/me");
+  const { data } = await nextServer.get<User>("/users/me");
   return data;
 };
 
 export const logout = async (): Promise<void> => {
-  await nextServer.post("auth/logout");
+  await nextServer.post("/auth/logout");
 };
 
 export const updateMe = async (payload: UpdateUserRequest) => {
