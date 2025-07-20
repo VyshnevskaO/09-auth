@@ -42,8 +42,17 @@ export default function NoteForm() {
   });
 
   const handleSubmit = (formData: FormData) => {
-    const values = Object.fromEntries(formData) as NewNoteData;
-    mutate(values);
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string;
+    const tag = formData.get("tag") as string;
+
+    const newNote: NewNoteData = {
+      title,
+      content,
+      tag,
+    };
+
+    mutate(newNote);
   };
 
   const handleCancel = () => {
@@ -61,6 +70,7 @@ export default function NoteForm() {
           className={css.input}
           defaultValue={draft?.title}
           onChange={handleChange}
+          required
         />
       </div>
           
@@ -87,6 +97,7 @@ export default function NoteForm() {
           className={css.select}
           defaultValue={draft?.tag}
           onChange={handleChange}
+          required
         >
           {tags.map((tag) => (
             <option key={tag} value={tag}>
